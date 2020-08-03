@@ -1,0 +1,167 @@
+<html lang="fr">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name=parite.children[parite.selectedIndex].text"viewport" content="width=device-width, initial-scale=1.0">
+      <title>Jeu Casino</title>
+      <link rel="stylesheet" href="casino.css">
+</head>
+<center> 
+<body onload="diapo()">
+     <header>
+     
+     <h1>Casino</h1>
+     <p>
+     BIENVENUE A VOUS<br>
+     <h2>COMMENCER A JOUER</h2><br>
+     Quand on clique sur le bouton "GO", l'ordinateur tire un numéro au hasardentre 0 et 36.•Si l'ordinateur tire 0, la mise est perdu.•Si l'ordinateur tire le numéro du joueur, il rend la mise plus 35 fois sa valeur.•Si l'ordinateur tire un numéro pair et que l'on a choisi « Pair », il rend la mise plus 1 fois savaleur. Même chose avec les impairs.
+     la mise la plus petite que vous pouvez effectuer est de 10.000 francs ,a vos marques pr&ecirct, GO!
+     </p>
+     </header>
+ 
+
+    <main> 
+         
+          <div>
+            Mise:
+            <input type="number" name="mise"  value="10">
+            <button>Go</button>
+ 
+  
+      
+    
+            numero
+          <select name="parity" id="btnu">
+            <option>Selectionnez</option>
+        <OPTION VALUE="1"> 1</OPTION>
+        <OPTION VALUE="2"> 2</OPTION>
+        <OPTION VALUE="3"> 3</OPTION>
+        <OPTION VALUE="4"> 4</OPTION>
+        <OPTION VALUE="5"> 5</OPTION>
+        <OPTION VALUE="6"> 6</OPTION>
+        <OPTION VALUE="7"> 7</OPTION>
+        <OPTION VALUE="8"> 8</OPTION>
+        <OPTION VALUE="9"> 9</OPTION>
+        <OPTION VALUE="10"> 10</OPTION>
+        <OPTION VALUE="11"> 11</OPTION>
+        <OPTION VALUE="12"> 12</OPTION>
+        <OPTION VALUE="13"> 13</OPTION>
+        <OPTION VALUE="14"> 14</OPTION>
+        <OPTION VALUE="15"> 15</OPTION>
+        <OPTION VALUE="16"> 16</OPTION>
+        <OPTION VALUE="17"> 17</OPTION>
+        <OPTION VALUE="18"> 18</OPTION>
+        <OPTION VALUE="19"> 19</OPTION>
+        <OPTION VALUE="20"> 20</OPTION>
+        <OPTION VALUE="21"> 21</OPTION>
+        <OPTION VALUE="22"> 22</OPTION>
+        <OPTION VALUE="23"> 23</OPTION>
+        <OPTION VALUE="24"> 24</OPTION>
+        <OPTION VALUE="25"> 25</OPTION>
+        <OPTION VALUE="26"> 26</OPTION>
+        <OPTION VALUE="27"> 27</OPTION>
+        <OPTION VALUE="28"> 28</OPTION>
+        <OPTION VALUE="29"> 29</OPTION>
+        <OPTION VALUE="30"> 30</OPTION>
+        <OPTION VALUE="31"> 31</OPTION>
+        <OPTION VALUE="32"> 32</OPTION>
+        <OPTION VALUE="33"> 33</OPTION>
+        <OPTION VALUE="34"> 34</OPTION>
+        <OPTION VALUE="35"> 35</OPTION>
+        <OPTION VALUE="36"> 36</OPTION>
+      
+      </select><br>
+    <div id="resultat"></div>
+    <div id="portefeuille">
+      <div>Portefeuille du Joueur: <span>100 milles FCFA</span></div>
+      <div>Portefeuille Casino: <span>0</span></div>
+    </div>
+    </div>
+
+
+
+    </main>
+    <footer style="position: absolute;bottom: 0px;right: 600px;">Tous droits reserves°</footer>
+
+  
+    <script> 
+    selects=document.getElementsByTagName("select");
+    cpt=selects.length;
+    
+    const parite = document.querySelector('select');
+    for (let i=0;i<cpt;i++) {
+  if (i === 1) parite.innerHTML += "<option value=\"impair\" selected>" + i + "</option>"
+  else if (i % 2 === 0) parite.innerHTML += "<option value=\"pair\">" + i + "</option>"
+  else parite.innerHTML += "<option value=\"impair\">" + i + "</option>"
+}
+
+let misejoueur = 5, argentjoueur = 100, argentordinateur = 0, ajout;
+
+const mise = document.querySelector('input');
+mise.addEventListener('input', function (event) {
+  misejoueur = parseInt(event.target.value)
+})
+
+let randomNumber;
+
+const result = document.getElementById('resultat');
+const portefeuille = document.getElementById('portefeuille');
+function win  (gain)  {
+  ajout = misejoueur * gain;
+  argentjoueur += ajout;
+}
+function lost ()  {
+  argentjoueur -= misejoueur;
+  argentordinateur += misejoueur;
+}
+
+const number = document.getElementById('number');
+function game  () {
+  randomNumber = Math.floor(Math.random() * Math.floor(37));
+  if (randomNumber === 0) {
+    result.textContent = randomNumber + " perdu!"
+    lost();
+  } else if (randomNumber == parite.children[parite.selectedIndex].text) {
+    win(36);
+    result.textContent = randomNumber + " excellent - vous avez gagné " + add + " mille FCFA"
+  } else if (randomNumber % 2 === 0 && parite.value === 'pair') {
+    win(2);
+    result.textContent = randomNumber + " Pair - vous avez gagné " + add + " mille FCFA"
+  } else if (randomNumber % 2 != 0 && parite.value === 'impair') {
+    win(2);
+    result.textContent = randomNumber + " Impair - vous avez gagné" + add + " mille FCFA"
+  } else {
+    if (randomNumber % 2 === 0 && parite.value === 'impair') {
+      lost();
+      result.textContent = randomNumber + " Pair - perdu!"
+    } else {
+      lost();
+      result.textContent = randomNumber + " Impair - perdu!"
+    }
+  }
+  portefeuille.firstElementChild.firstElementChild.textContent = argentjoueur + " mille FCFA"
+  if (argentordinateur != 0) portefeuille.lastElementChild.firstElementChild.textContent = argentordinateur + " mille FCFA"
+}
+
+const go = document.querySelector('button');
+go.addEventListener('click', game);
+
+let i = 1;
+function diapo  () {
+  const body = document.querySelector('body');
+  if (i === 9)
+   i = 0;
+  i++;
+  body.style.backgroundImage = "url(./image" + i + ".jpg)"
+  setTimeout(diapo, 5000);
+
+}
+setTimeout(diapo, 5000);
+
+    
+    </script>
+
+</body>
+</center>
+
+</html>
